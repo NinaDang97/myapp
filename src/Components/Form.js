@@ -12,6 +12,17 @@ class Form extends Component{
             participants: []
         }
     }
+        
+    static defaultProps = {
+        persons: [
+            {
+                id: 0,
+                name: 'John Doe',
+                email: 'john.doe@gmail.com',
+                number: '30219707',
+            }
+        ]
+    }
 
     inputChanged = (event) => {
         this.setState({[event.target.name]: event.target.value});
@@ -31,6 +42,11 @@ class Form extends Component{
         })
     }
     
+    deletePart = (deletedId) => {
+        let participants = this.state.participants.filter((val) => val.id !== deletedId);
+        this.setState({participants});
+    }
+    
     render(){
         return (
             <div>
@@ -46,7 +62,7 @@ class Form extends Component{
                 </table>   
 
                  {/* All participants table goes here */}
-                <ParticipantList participants={this.state.participants} />
+                <ParticipantList participants={this.state.participants} deletePart={this.deletePart}  />
             </div>
         );
     }

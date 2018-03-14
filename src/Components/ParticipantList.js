@@ -15,12 +15,12 @@ class ParticipantList extends Component{
             fill: '#909090',
             // height: 24,
             // width: 24
-        }          
-        const trash = (
-            <FontAwesomeIcon style={icon} icon={faTrash} />
-        )
+        }
         const pencil = (
             <FontAwesomeIcon style={icon} icon={faPencilAlt} />
+        )          
+        const trash = (
+            <FontAwesomeIcon style={icon} icon={faTrash} />
         )
 
         //looping participants list
@@ -29,7 +29,7 @@ class ParticipantList extends Component{
                 <td>{val.name}</td>
                 <td>{val.email}</td>
                 <td>{val.number}</td>
-                <td>{pencil}{trash}</td>
+                <td><a>{pencil}</a><a onClick={() => this.props.deletePart(val.id)}>{trash}</a></td>
             </tr>
         ));
         return(
@@ -43,24 +43,6 @@ class ParticipantList extends Component{
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>John Doe</td>
-                <td>john.doe@gmail.com</td>
-                <td>12749822</td>
-                <td>{pencil}{trash}</td>
-              </tr>
-              <tr>
-                <td>Joonas Turunen</td>
-                <td>joonas.turu@gmail.com</td>
-                <td>3523523</td>
-                <td>{pencil}{trash}</td>
-              </tr>
-              <tr>
-                <td>Nga Tran</td>
-                <td>nga.tran@gmail.com</td>
-                <td>5723557</td>
-                <td>{pencil}{trash}</td>
-              </tr>
               {participant}
             </tbody>
           </table>
