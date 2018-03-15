@@ -3,12 +3,9 @@ import './ParticipantList.css';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faTrash from '@fortawesome/fontawesome-free-solid/faTrash';
 import faPencilAlt from '@fortawesome/fontawesome-free-solid/faPencilAlt';
+import ParticipantGenerator from './ParticipantGenerator';
 
 class ParticipantList extends Component{
-    constructor(props){
-        super(props);
-    }
-
     render(){
         //icon edit, delete styling
         const icon = {
@@ -23,8 +20,9 @@ class ParticipantList extends Component{
             <FontAwesomeIcon style={icon} icon={faTrash} />
         )
 
+       
         //looping participants list
-        let participant = this.props.participants.map((val) => (
+        let participant = this.props.participants.map((val) => (            
             <tr key={val.id}>
                 <td>{val.name}</td>
                 <td>{val.email}</td>
@@ -33,19 +31,25 @@ class ParticipantList extends Component{
             </tr>
         ));
         return(
-            <table className="table">
-            <thead>
-              <tr>
-                <th>Name<i className="fa fa-long-arrow-down"></i></th>
-                <th>E-mail address</th>
-                <th>Phone number</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {participant}
-            </tbody>
-          </table>
+            <div>
+                <table className="table">
+                <thead>
+                    <tr>
+                        <th>Name<i className="fa fa-long-arrow-down"></i></th>
+                        <th>E-mail address</th>
+                        <th>Phone number</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <ParticipantGenerator deletePart={this.props.deletePart} /> 
+                <tbody>                    
+                    {participant}
+                </tbody>
+            </table>    
+                
+            
+          </div>
+          
         );
     }
 }
