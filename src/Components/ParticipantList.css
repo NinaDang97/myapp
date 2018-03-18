@@ -1,3 +1,61 @@
+/* TWO TABLES STYLING */
+table{
+    width: 912px;
+    background-color: white;
+    margin-top: 8px;
+}
+
+table .name{
+    width: 20%;
+}
+
+table .email{
+    width: 37%;
+}
+
+table .number{
+    width: 30%;
+}
+
+table .btn{
+    width: 20%;
+}
+
+/* FORM TABLE STYLING */
+.form input{
+    width: 80%;
+    height: 40px;
+    background-color: #f9faf9;
+    border: #f4f4f4 solid 1px;
+    padding-left: 24px;
+    margin: 0 30px;
+}
+
+.form .name{    
+    width: 15%;
+}
+
+.form .name input{
+    margin-left: 16px;
+}
+
+.form .email input{
+    margin-left: 40px;
+}
+
+.form button{
+    background-color: #f4f4ec;
+    color: #757575;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    border: none;
+    height: 40px;
+    width: 100px;
+    margin: 0 30px;
+}
+
+
 /* MAIN TABLE STYLING */
 .table tr td, th{
     padding: 24px;    

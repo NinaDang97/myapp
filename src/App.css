@@ -10,7 +10,14 @@
 .header{
     width: 100%;
     height: 96px;
-    background-color: #acb4b4;
+    background-color:#adb5bd;
+}
+
+.header img{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 17px;
 }
 
 /* CONTENT CLASS STYLING */
@@ -22,9 +29,3 @@ h2{
     color: #757575;
 }
 
-/* TWO TABLES STYLING */
-table{
-    width: 912px;
-    background-color: white;
-    margin-top: 8px;
-}
