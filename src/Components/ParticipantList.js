@@ -28,12 +28,14 @@ class ParticipantList extends Component{
         }
     }
         
+    //receive props from FetchAPI random generator
     componentWillReceiveProps(props){
         if(typeof props.rdmPartList !== 'undefined'){
             this.setState({participants: props.rdmPartList});
         }
     }
 
+    //onChange event
     inputChanged = (event) => {
         this.setState({[event.target.name]: event.target.value});
     }
@@ -70,7 +72,7 @@ class ParticipantList extends Component{
             name: this.state.name,
             email: this.state.email,
             number: this.state.number,
-            show: true
+            show: true //set show row table to true 
         }
 
         //validate name, email & phone number
@@ -95,11 +97,13 @@ class ParticipantList extends Component{
         this.setState({participants});
     }
 
+    //delete participant row
     deletePart = (deletedId) => {
         let participants = this.state.participants.filter((val, i) => i !== deletedId);
         this.setState({participants});
     }
 
+    //open participant edit form
     editPart = (editId) => {
         let participants = this.state.participants.map(function(val, i){
             if(i === editId){
@@ -112,12 +116,25 @@ class ParticipantList extends Component{
         });
     }
 
+    //update participant edit 
     updatePart = (id, name, email, number) => {
         let participants = this.state.participants.map((val, i) => {
             if(i === id){
                 val.name = name;
                 val.email = email;
                 val.number = number;
+                val.show = true; 
+            }
+            return val;
+        })
+        this.setState({participants}); 
+    }
+
+    //cancel participant edit form
+    cancelPart = (id) => {
+        let participants = this.state.participants.map((val, i) => {
+            if(i === id){
+                val.show = true; 
             }
             return val;
         })
@@ -158,13 +175,14 @@ class ParticipantList extends Component{
                 )
             } 
             else {
-                return (
+                return ( //show edit form when show = false
                     <ParticipantEdit
                         key={i}
                         id={i}
                         name={val.name}
                         email={val.email}
                         number={val.number}
+                        cancelPart={this.cancelPart}
                         updatePart={this.updatePart}
                     />
                 )

@@ -27,7 +27,7 @@ class ParticipantEdit extends Component{
                 <td className="number">
                     <input type="text" name="number" value={this.state.number} onChange={this.inputChanged} placeholder="Phone number" />
                 </td>
-                <td className="btn"><button className="cancel">Cancel</button><button className="save" onClick={() => this.props.updatePart(this.props.id, this.state.name, this.state.email, this.state.number)}>Save</button></td>
+                <td className="btn"><button onClick={() => this.props.cancelPart(this.props.id)} className="cancel">Cancel</button><button className="save" onClick={() => this.props.updatePart(this.props.id, this.state.name, this.state.email, this.state.number)}>Save</button></td>
             </tr>
         );
     }
