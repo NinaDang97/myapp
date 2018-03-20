@@ -10,7 +10,7 @@ table .name{
 }
 
 table .email{
-    width: 37%;
+    width: 30%;
 }
 
 table .number{
@@ -54,7 +54,6 @@ table .btn{
     width: 100px;
     margin: 0 30px;
 }
-
 
 /* MAIN TABLE STYLING */
 .table tr td, th{

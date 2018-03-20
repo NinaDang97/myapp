@@ -15,10 +15,10 @@ class App extends Component {
     .then((responseData) => {
         let rdmPartList = responseData.results.map((element, i) => {
           return {
-              id: i,
               name: `${element.name.first} ${element.name.last}`,
               email: element.email,
-              number: element.phone
+              number: element.phone,
+              show: true
           }
         });
       this.setState({rdmPartList});

@@ -4,6 +4,18 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faTrash from '@fortawesome/fontawesome-free-solid/faTrash';
 import faPencilAlt from '@fortawesome/fontawesome-free-solid/faPencilAlt';
 import faArrowDown from '@fortawesome/fontawesome-free-solid/faArrowDown';
+import ParticipantEdit from './ParticipantEdit';
+
+const Participant = props => {
+    return (
+        <tr key={props.id} id={props.id}>
+            <td >{props.name}</td>
+            <td>{props.email}</td>
+            <td>{props.number}</td>
+            <td className='btn'><a onClick={() => props.editPart(props.id)}>{props.pencil}</a><a onClick={() => props.deletePart(props.id)}>{props.trash}</a></td>
+        </tr>
+    );
+}
 
 class ParticipantList extends Component{
     constructor(props){
@@ -17,7 +29,7 @@ class ParticipantList extends Component{
     }
         
     componentWillReceiveProps(props){
-        if(typeof props.rdmPartList != 'undefined'){
+        if(typeof props.rdmPartList !== 'undefined'){
             this.setState({participants: props.rdmPartList});
         }
     }
@@ -41,7 +53,7 @@ class ParticipantList extends Component{
     //valid email must contain some special characters
     validateEmail(email) 
     {
-    const validEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        const validEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         if (email.match(validEmail) !== null)
         {
             return true;
@@ -51,43 +63,65 @@ class ParticipantList extends Component{
         }
         
     }
-    //valid phone number must contain numeric characters and NANP
-    validatePhone(number)
-    {
-    const validPhone =/^[\]?[(]?[0-9]{3}[)]?[-\s\]?[0-9]{3}[-\s\]?[0-9]{4,6}$/;
-        if(number.match(validPhone) !== null){
-            return true;
-        } else{            
-            alert("Invalid Phone Number");
-            return false;
-        }
-    }
 
     //Add new participant row function
-    btnPress = (event) => {
-        //generate unique id based on milliseconds
-        let id = Date.now();  
+    btnPress = () => {
         let participant = {
-            id,
             name: this.state.name,
             email: this.state.email,
-            number: this.state.number
+            number: this.state.number,
+            show: true
         }
 
-        if(this.validateName(participant.name) && this.validateEmail(participant.email) && this.validatePhone(participant.number)){
+        //validate name, email & phone number
+        if(this.validateName(participant.name) && this.validateEmail(participant.email)){
             //after submit, input will be left blank
             let name = '', email = '', number = '';
 
             this.setState({
                 name, email, number,
-                participants: [...this.state.participants, participant]
+                participants: [participant, ...this.state.participants]
             })
         }
     }
 
-    deletePart = (deletedId) => {
-        let participants = this.state.participants.filter((val) => val.id !== deletedId);
+    sortName = () => {
+        let participants = this.state.participants;
+        participants.sort(function(a, b){
+            if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+            if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+            return 0;
+        });
         this.setState({participants});
+    }
+
+    deletePart = (deletedId) => {
+        let participants = this.state.participants.filter((val, i) => i !== deletedId);
+        this.setState({participants});
+    }
+
+    editPart = (editId) => {
+        let participants = this.state.participants.map(function(val, i){
+            if(i === editId){
+                val.show = false;
+            } 
+            return val;
+        })
+        this.setState({
+            participants
+        });
+    }
+
+    updatePart = (id, name, email, number) => {
+        let participants = this.state.participants.map((val, i) => {
+            if(i === id){
+                val.name = name;
+                val.email = email;
+                val.number = number;
+            }
+            return val;
+        })
+        this.setState({participants}); 
     }
 
     render(){
@@ -107,25 +141,51 @@ class ParticipantList extends Component{
             <FontAwesomeIcon style={icon} icon={faTrash} />
         )
 
-        //looping participants list
-        let participant = this.state.participants.map((val) => (            
-            <tr key={val.id}>
-                <td >{val.name}</td>
-                <td>{val.email}</td>
-                <td>{val.number}</td>
-                <td><a>{pencil}</a><a onClick={() => this.deletePart(val.id)}>{trash}</a></td>
-            </tr>
-        ));
 
+        //looping participants list
+        let participant = this.state.participants.map((val, i) => {
+            if(val.show === true){
+                return (
+                    <Participant 
+                        key={i} 
+                        id={i}
+                        {...val}
+                        pencil={pencil}
+                        trash={trash}
+                        deletePart={this.deletePart}
+                        editPart={this.editPart}  
+                    />
+                )
+            } 
+            else {
+                return (
+                    <ParticipantEdit
+                        key={i}
+                        id={i}
+                        name={val.name}
+                        email={val.email}
+                        number={val.number}
+                        updatePart={this.updatePart}
+                    />
+                )
+            }
+        }); 
+        
         return(
             <div>
                 <table className="form">
                     <tbody>
-                        <tr> 
-                            <td className="name"><input type="text" name="name" value={this.state.name} onChange={this.inputChanged} placeholder="Full name" /></td>
-                            <td className="email"><input type="email" name="email" value={this.state.email} onChange={this.inputChanged} placeholder="E-mail address" /></td>
-                            <td className="number"><input type="text" name="number" value={this.state.number} onChange={this.inputChanged} placeholder="Phone number" /></td>
-                            <td className="btn"><button onClick={this.btnPress}>Add new</button></td>
+                        <tr>
+                            <td className="name">
+                                <input type="text" name="name" value={this.state.name} onChange={this.inputChanged} placeholder="Full name" />
+                            </td>
+                            <td className="email">
+                                <input type="email" name="email" value={this.state.email} onChange={this.inputChanged} placeholder="E-mail address" />
+                            </td>
+                            <td className="number">
+                                <input type="text" name="number" value={this.state.number} onChange={this.inputChanged} placeholder="Phone number" />
+                            </td>
+                            <td className="btn"><button onClick={() => this.btnPress()}>Add new</button></td>
                         </tr>
                     </tbody>
                 </table>  
@@ -133,14 +193,14 @@ class ParticipantList extends Component{
                 <table className="table">
                     <thead>
                         <tr>
-                            <th className="name">Name <a>{sort}</a></th>
+                            <th className="name">Name <a onClick={() => this.sortName()}>{sort}</a></th>
                             <th className="email">E-mail address</th>
                             <th className="number">Phone number</th>
                             <th className="btn"></th>
                         </tr>
                     </thead>
                     <tbody>
-                            {participant}
+                        {participant}
                     </tbody>
                     
                 </table> 
