@@ -1,5 +1,7 @@
 # participant-list-app
-[Demo version](https://kenh14.vn)
+
+## Demo version
+[participant-list-app](http://participant-list-app.surge.sh/)
 
 ## Introduction
 An app with full CRUD controllation of participant list using React.js
@@ -32,4 +34,16 @@ myapp/
     registerService.js
   package.json
   README.md
+```
+
+## Deploy on Surge.sh
+
+```
+npm install -g surge
+cd myapp
+npm run build
+cd build
+surge
+```
+  
     
